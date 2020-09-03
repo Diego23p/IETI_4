@@ -1,0 +1,32 @@
+{
+  "name": "task-planner-app",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "npm": "6.14.4",
+    "node": "12.16.3"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.9.0",
+    "@material-ui/icons": "^4.5.1",
+    "@material-ui/pickers": "^3.2.10",
+    "@date-io/moment": "^2.1.0",
+    "moment": "^2.22.2",
+    "react": "^16.4.2",
+    "react-datepicker": "^1.6.0",
+    "react-dom": "^16.4.2",
+    "react-moment": "^0.7.9",
+    "react-scripts": "1.1.4",
+    "react-router-dom": "^4.3.1",
+    "material-ui-popup-state": "latest"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  }
+}
