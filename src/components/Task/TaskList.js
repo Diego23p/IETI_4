@@ -15,8 +15,16 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import FormatListNumberedRoundedIcon from '@material-ui/icons/FormatListNumberedRounded';
+import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import HowToRegIcon from '@material-ui/icons/HowToReg';
+import FilterListIcon from '@material-ui/icons/FilterList';
+import Modal from '@material-ui/core/Modal';
+import {NewTask} from "./NewTask";
+import {UserProfile} from "../UserProfile";
+import {Filtering} from "../Filtering";
 import {Task} from "./Task";
 
 const drawerWidth = 240;
@@ -81,17 +89,45 @@ const useStyles = makeStyles((theme) => ({
 export default function PersistentDrawerLeft() {
     const classes = useStyles();
     const theme = useTheme();
+
     const [open, setOpen] = React.useState(false);
+    const [openModal, setOpenModal] = React.useState(false);
+    const [openModalUser, setOpenModalUser] = React.useState(false);
+    const [openModalFilter, setOpenModalFilter] = React.useState(false);
 
     const handleDrawerOpen = () => {
-        setOpen(true);
+      setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+      setOpen(false);
+  };
+
+    const handleOpenModal = () => {
+      setOpenModal(true);
     };
 
-    const handleDrawerClose = () => {
-        setOpen(false);
+    const handleCloseModal = () => {
+      setOpenModal(false);
     };
 
-    const catalinaList = [
+    const handleOpenModalUser = () => {
+      setOpenModalUser(true);
+    };
+
+    const handleCloseModalUser = () => {
+      setOpenModalUser(false);
+    };
+
+    const handleOpenModalFilter = () => {
+      setOpenModalFilter(true);
+    };
+
+    const handleCloseModalFilter = () => {
+      setOpenModalFilter(false);
+    };
+
+    const [TaskList,setTaskList] = React.useState([
       {
         "description": "Hacer la DB",
         "responsible": {
@@ -99,7 +135,7 @@ export default function PersistentDrawerLeft() {
           "email": "Catalina@gmail"
         },
         "status": "Ready",
-        "dueDate": 1599831824221
+        "dueDate": 1600931924221
       },
       {
         "description": "Implementar FrontEnd",
@@ -107,29 +143,53 @@ export default function PersistentDrawerLeft() {
           "name": "Catalina",
           "email": "catalina@gmail"
         },
-        "status": "To do",
-        "dueDate": 1598931924221
-      }
-    ];
-
-    const samuelList = [
+        "status": "Done",
+        "dueDate": 1609031924221
+      },
       {
-        "description": "Desarrollar en IOS",
+        "description": "Implementar BackEnd",
         "responsible": {
-          "name": "Samuel",
-          "email": "samuel@gmail"
+          "name": "Juan",
+          "email": "Juan@gmail"
         },
-        "status": "To do",
-        "dueDate": 1598881824221
+        "status": "In Progress",
+        "dueDate": 1600031924221
       }
-    ];
+    ]);
 
-    const catalinaView = () => {
-      return <Task taskList={catalinaList}/>
-    };
+    const [Usuario,setUsuario] = React.useState([
+      {
+        "fullName": "Catalina",
+        "email": "Catalina@escuelaing"
+      }
+    ]);
 
-    const samuelView = () => {
-      return <Task taskList={samuelList}/>
+    const [Filters,setFilters] = React.useState([
+      {
+        "responsible":"",
+        "status":"",
+        "dueDate":""
+      }
+    ]);
+
+    const addTask = (task)=>{
+      TaskList.push(task);
+      setTaskList(TaskList);
+      setOpenModal(false);
+    }
+
+    const setUser = (user)=>{
+      Usuario.pop();
+      Usuario.push(user);
+      setUsuario(Usuario);
+      setOpenModalUser(false);
+    }
+
+    const setFilter = (filter)=>{
+      Filters.pop();
+      Filters.push(filter);
+      setFilters(Filters);
+      setOpenModalFilter(false);
     }
 
     return (
@@ -176,19 +236,28 @@ export default function PersistentDrawerLeft() {
                     <Divider /><Divider />
 
                     <List>
-                        <ListItem button key="Catalina">
+                        <ListItem key="Catalina" >
                             <ListItemIcon >
-                                <FormatListNumberedRoundedIcon />
+                                <PersonOutlineIcon />
                             </ListItemIcon>
-                            <Link to="/catalinaTask" >Catalina</Link>
+                            {Usuario[0].fullName}
+                            <br></br>
+                            {Usuario[0].email}
                         </ListItem>
 
-                        <ListItem button key="Samuel">
-                            <ListItemIcon>
-                                <FormatListNumberedRoundedIcon />
-                            </ListItemIcon>
-                            <Link to="/samuelTask" >Samuel</Link>
-                        </ListItem>
+                        <div>
+                          <Button color="primary" aria-label="add" className="addRight" onClick={handleOpenModalUser}>
+                            <HowToRegIcon/> Registration
+                          </Button>
+                          <Modal
+                            open={openModalUser}
+                            onClose={handleCloseModalUser}
+                            aria-labelledby="simple-modal-title"
+                            aria-describedby="simple-modal-description"
+                          >
+                            <UserProfile user={(user)=>setUser(user)} />
+                          </Modal>
+                        </div>
 
                         <Button 
                             type="submit"
@@ -208,15 +277,52 @@ export default function PersistentDrawerLeft() {
                     [classes.contentShift]: open,
                     })}
                 >
-                    <div className={classes.drawerHeader} />
-                      <Typography variant="h4">
-                            Select a User
-                        </Typography>
-                        <Route exact path="/catalinaTask" component={catalinaView}/>
-                        <Route exact path="/samuelTask" component={samuelView}/>
-                      
+                  <div className={classes.drawerHeader} />
+
+                    <Typography variant="h4">
+                      Add New Task
+                    </Typography>
+
+                    <div>
+                      <Fab color="primary" aria-label="add" className="addRight" onClick={handleOpenModal}>
+                        <AddIcon/>
+                      </Fab>
+                      <Modal
+                        open={openModal}
+                        onClose={handleCloseModal}
+                        aria-labelledby="simple-modal-title"
+                        aria-describedby="simple-modal-description"
+                      >
+                        <NewTask TaskList={(task)=>addTask(task)} />
+                      </Modal>
+                    </div>
+                    <br/><br/>
+
+                    <Divider /><Divider />
+
+                    <Task taskList={TaskList} filter={Filters}/>
+
+                    <div>
+                      <Button color="primary" aria-label="add" className="addRight" onClick={handleOpenModalFilter}>
+                        <FilterListIcon/> Filters
+                      </Button>
+                      <Modal
+                        open={openModalFilter}
+                        onClose={handleCloseModalFilter}
+                        aria-labelledby="simple-modal-title"
+                        aria-describedby="simple-modal-description"
+                      >
+                        <Filtering filtros={(filtros)=>setFilter(filtros)} />
+                      </Modal>
+                    </div>
+
                 </main>
             </div>
         </Router>
     );
 }
+
+
+
+
+

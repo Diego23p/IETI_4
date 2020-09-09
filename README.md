@@ -31,7 +31,7 @@ git version 2.21.0.windows.1
 
 Para descargar localmente el repositorio se utiliza el comando como sigue:
 ```
-git clone https://github.com/Diego23p/IETI_3.git
+git clone https://github.com/Diego23p/IETI_4.git
 ```
 
 Para ejecutar la aplicación:
@@ -43,13 +43,31 @@ npm start
 
 ## Desarrollo
 
-* a
+* Create the NewTask.js component and the corresponding CSS file if needed (use the Material-UI library!)
 
 ![](/img/1.jpg)
 
+* Modify the App.js component so that it uses BrowserRouter to enable the navigation from a "+" floating action button in the main view to take the user to the NewTask component.
 
+![](/img/2.jpg)
 
+* Implement the logic to be able to connect the main view so that the new task is added to the list on the main view when the user clicks the add button.
 
+![](/img/3.jpg)
+
+![](/img/4.jpg)
+
+* Implement the UserProfile.js component to update the user profile details (make sure this updates your navigationDrawer in your main view):
+
+![](/img/5.jpg)
+
+![](/img/6.jpg)
+
+* Implement the logic so that the data is filtered according to the applied filters.
+
+![](/img/7.jpg)
+
+![](/img/8.jpg)
 
 * Deploy your App to Heroku
 

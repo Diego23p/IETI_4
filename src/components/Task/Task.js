@@ -11,13 +11,28 @@ export class Task extends React.Component {
         super(props);
     }
 
-    render() {
+    render() {          
         const bull = <span className="bullet">•</span>;
         const taskList = this.props.taskList.map((task, i) => {
+
+            var a = task.responsible.name == this.props.filter[0].responsible;
+            var b = this.props.filter[0].responsible == "";
+
+            var c = task.status == this.props.filter[0].status;
+            var q = this.props.filter[0].status == "";
 
             var d = task.dueDate;
             d = new Date(d - 3000000);
             var date_format_str = d.getFullYear().toString()+"-"+((d.getMonth()+1).toString().length==2?(d.getMonth()+1).toString():"0"+(d.getMonth()+1).toString())+"-"+(d.getDate().toString().length==2?d.getDate().toString():"0"+d.getDate().toString());
+
+            var d2 = this.props.filter[0].dueDate;
+            d2 = new Date(d2 - 3000000);
+            var date_format_str2 = d2.getFullYear().toString()+"-"+((d2.getMonth()+1).toString().length==2?(d2.getMonth()+1).toString():"0"+(d2.getMonth()+1).toString())+"-"+((d2.getDate()+1).toString().length==2?(d2.getDate()+1).toString():"0"+d2.getDate().toString());
+
+            var e = date_format_str == date_format_str2;
+            var f = this.props.filter[0].dueDate == "";
+
+            if ( (a | b) & (c|q) & (e|f) ) {
 
             return (
                 <Card className="root">
@@ -41,6 +56,7 @@ export class Task extends React.Component {
                     </CardContent>
                 </Card>
             );
+            }
         });
 
         return (
